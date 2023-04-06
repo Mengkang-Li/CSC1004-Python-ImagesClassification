@@ -13,6 +13,11 @@ import numpy as np
 
 from utils.config_utils import read_args, load_config, Dict2Object
 
+run_count = 1
+training_acc_results = []
+training_loss_results = []
+testing_acc_results = []
+testing_loss_results = []
 
 class Net(nn.Module):
     def __init__(self):
@@ -40,7 +45,6 @@ class Net(nn.Module):
         return output  # 输出， 这个过程叫做 forward
 
 
-
 def train(args, model, device, train_loader, optimizer, epoch):
     """
     tain the model and return the training accuracy
@@ -52,22 +56,24 @@ def train(args, model, device, train_loader, optimizer, epoch):
     :param epoch: current epoch 第几次
     :return:
     """
-    model.train()    # 模型训练
+    model.train()  # 模型训练
     # 这个for  是对 dataloader 中的batch_idx 和 data , target作为元素遍历
     correct = 0.0
+    total_loss = 0.0
     for batch_idx, (data, target) in enumerate(train_loader):  # enumerate 将一个可以遍历的东西串联成一个索引序列，同时列出数据和数据下标
         data, target = data.to(device), target.to(device)  # 将数据喂入设备 data 是 input target 是 labels
         optimizer.zero_grad()  # 梯度清零 每一步都要初始化为0
         output = model(data)  # 前向传播 得到训练结果
         loss = F.nll_loss(output, target)  # 计算损失函数
+        total_loss += loss.item()
+        predicted = torch.max(output, 1)[1]
+        correct += (predicted == target).sum().item()
         loss.backward()  # 反向传播
         optimizer.step()  # 更新可训练权重
 
-    '''Fill your code'''
-    predicted = torch.max(output, 1)[1]
-    correct = (predicted == target).sum().item()
-    correct = correct / batch_idx
-    training_acc, training_loss = correct, loss.item()  # replace this line
+    correct = correct / len(train_loader.dataset)
+    total_loss = total_loss / len(train_loader.dataset)
+    training_acc, training_loss = correct, total_loss  # replace this line
     return training_acc, training_loss
 
 
@@ -80,8 +86,8 @@ def test(model, device, test_loader):
     :return:
     """
     model.eval()
-    test_loss = 0.0     # 测试损失
-    correct = 0.0       # 正确率
+    test_loss = 0.0  # 测试损失
+    correct = 0.0  # 正确率
     with torch.no_grad():
         for data, target in test_loader:
             '''Fill your code'''
@@ -94,12 +100,12 @@ def test(model, device, test_loader):
             correct = correct + pred.eq(target.view_as(pred)).sum().item()
 
         test_loss /= len(test_loader.dataset)
-
+        correct = correct / len(test_loader.dataset)
     testing_acc, testing_loss = correct, test_loss  # replace this line
     return testing_acc, testing_loss
 
 
-def plot(epoches, performance):
+def plot(epoches, performance, name):
     """
     plot the model peformance
     :param epoches: recorded epoches
@@ -111,24 +117,21 @@ def plot(epoches, performance):
 
     performance = numpy.array(performance)
     plt.plot(epoches, performance)
+    plt.xlabel('epoch')
+    plt.ylabel(f'{name}')
+    plt.savefig(f'images/{name}.png')
     plt.show()
 
 
 def run(config):
-    # 超参数配置
-    config = {'batch_size': 64,  # input batch size for training
-              'test_batch_size': 1000,  # input batch size for testing
-              'epochs': 15,  # number of epochs to train
-              'lr': 0.01,  # learning rate
-              'gamma': 0.7,  # learning rate step gamma
-              'no_cuda': True,  # disables CUDA training
-              'no_mps': True,  # disables macOS GPU training
-              'dry_run': False,  # quickly check a single pass
-              'seed': 1,  # random seed
-              'log_interval': 10,  # how many batches to wait before logging training status
-              'save_model': True  # For Saving the current Model
-              }
+    global run_count
+    global training_acc_results
+    global training_loss_results
+    global testing_acc_results
+    global testing_loss_results
 
+    # 超参数配置
+    print("------------------------------This is the " + str(run_count) + " time------------------------------")
     use_cuda = (not True) and torch.cuda.is_available()  # test whether cuda is av
     use_mps = (not True) and torch.backends.mps.is_available()  # test whether mps is av
 
@@ -145,8 +148,7 @@ def run(config):
     test_kwargs = {'batch_size': 1000}
     if use_cuda:
         cuda_kwargs = {'num_workers': 1,
-                       'pin_memory': True,
-                       'shuffle': True}
+                       'pin_memory': True}
         train_kwargs.update(cuda_kwargs)
         test_kwargs.update(cuda_kwargs)
 
@@ -159,11 +161,11 @@ def run(config):
     dataset2 = datasets.MNIST('./data', train=False, transform=transform)
 
     """add random seed to the DataLoader, pls modify this function"""
-    train_loader = torch.utils.data.DataLoader(dataset1, **train_kwargs)
-    test_loader = torch.utils.data.DataLoader(dataset2, **test_kwargs)
+    train_loader = torch.utils.data.DataLoader(dataset1, **train_kwargs, shuffle=True)
+    test_loader = torch.utils.data.DataLoader(dataset2, **test_kwargs, shuffle=True)
 
-    model = Net().to(device)     # 部署到设备上
-    optimizer = optim.Adadelta(model.parameters(), lr=0.01)     # 调用模型参数的优化器 使更准确
+    model = Net().to(device)  # 部署到设备上
+    optimizer = optim.Adadelta(model.parameters(), lr=0.01)  # 调用模型参数的优化器 使更准确
 
     """record the performance"""
     epoches = []
@@ -175,32 +177,35 @@ def run(config):
     scheduler = StepLR(optimizer, step_size=1, gamma=0.7)
     for epoch in range(1, 16):
         train_acc, train_loss = train(config, model, device, train_loader, optimizer, epoch)
-        """record training info, Fill your code"""
-        train_info = {'epoch': epoch, 'train_acc': train_loss, 'train_loss': train_loss}
+        train_info = {'epoch': epoch, 'train_acc': train_acc, 'train_loss': train_loss}
         print(train_info)
 
         test_acc, test_loss = test(model, device, test_loader)
-        """record testing info, Fill your code"""
-        test_info = {'epoch': epoch, 'test_acc' : test_loss, 'test_loss': test_loss}
+        test_info = {'epoch': epoch, 'test_acc': test_acc, 'test_loss': test_loss}
         print(test_info)
 
         scheduler.step()
         """update the records, Fill your code"""
-
         epoches.append(epoch)
         training_accuracies.append(train_acc)
         training_loss.append(train_loss)
         testing_accuracies.append(test_acc)
         testing_loss.append(test_loss)
     """plotting training performance with the records"""
-    plot(epoches, training_loss)
+    training_acc_results.append(training_accuracies)
+    training_loss_results.append(training_loss)
+    plot(epoches, training_loss, "training_loss" + f"{str(run_count)}")
+    plot(epoches, training_accuracies, "training_accuracies" + f"{str(run_count)}")
 
     """plotting testing performance with the records"""
-    plot(epoches, testing_accuracies)
-    plot(epoches, testing_loss)
+    testing_acc_results.append(testing_accuracies)
+    testing_loss_results.append(testing_loss)
+    plot(epoches, testing_loss, "testing_loss" + f"{str(run_count)}")
+    plot(epoches, testing_accuracies, "testing_accuracies" + f"{str(run_count)}")
 
-    if config['save_model']:
-        torch.save(model.state_dict(), "mnist_cnn.pt")
+    if config.save_model:
+        torch.save(model.state_dict(), "mnist_cnn_with_run_count_" + str(run_count) + ".pt")
+    run_count = run_count + 1
 
 
 def plot_mean():
@@ -210,6 +215,20 @@ def plot_mean():
     :return:
     """
     """fill your code"""
+    global training_acc_results
+    global training_loss_results
+    global testing_acc_results
+    global testing_loss_results
+    training_acc_results = np.mean(training_acc_results, axis=0)
+    training_loss_results = np.mean(training_loss_results, axis=0)
+    testing_acc_results = np.mean(testing_acc_results, axis=0)
+    testing_loss_results = np.mean(testing_loss_results, axis=0)
+    epoches = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    epoches = numpy.array(epoches)
+    plot(epoches, training_acc_results, "mean_training_acc")
+    plot(epoches, training_loss_results, "mean_training_loss")
+    plot(epoches, testing_acc_results, "mean_testing_acc")
+    plot(epoches, testing_loss_results, "mean_testing_loss")
 
 
 if __name__ == '__main__':
@@ -219,7 +238,8 @@ if __name__ == '__main__':
     config = load_config(arg)
 
     """train model and record results"""
-    run(config)
+    for i in range(3):
+        run(config)
 
     """plot the mean results"""
     plot_mean()
