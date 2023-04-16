@@ -1,5 +1,6 @@
 from __future__ import print_function
-import argparse
+import copy
+import multiprocessing
 
 import numpy
 import torch
@@ -10,14 +11,10 @@ from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
 import matplotlib.pyplot as plt
 import numpy as np
+import json
 
 from utils.config_utils import read_args, load_config, Dict2Object
 
-run_count = 1
-training_acc_results = []
-training_loss_results = []
-testing_acc_results = []
-testing_loss_results = []
 
 class Net(nn.Module):
     def __init__(self):
@@ -119,23 +116,25 @@ def plot(epoches, performance, name):
     plt.plot(epoches, performance)
     plt.xlabel('epoch')
     plt.ylabel(f'{name}')
+    plt.title(name)
     plt.savefig(f'images/{name}.png')
     plt.show()
 
 
 def run(config):
-    global run_count
-    global training_acc_results
-    global training_loss_results
-    global testing_acc_results
-    global testing_loss_results
-
+    run_count = config.run_count
+    outputName = "output" + str(run_count) + ".txt"
     # 超参数配置
-    print("------------------------------This is the " + str(run_count) + " time------------------------------")
+
+    start = "------------------------------This is the " + str(run_count) + " time------------------------------"
+    with open(f'{outputName}', 'w') as txt:
+        txt.write(start)
+        txt.write("\n")
+    print(start)
     use_cuda = (not True) and torch.cuda.is_available()  # test whether cuda is av
     use_mps = (not True) and torch.backends.mps.is_available()  # test whether mps is av
 
-    torch.manual_seed(1)  # set the seed to generate random numbers
+    torch.manual_seed(config.seed)  # set the seed to generate random numbers
 
     if use_cuda:
         device = torch.device("cuda")
@@ -161,8 +160,9 @@ def run(config):
     dataset2 = datasets.MNIST('./data', train=False, transform=transform)
 
     """add random seed to the DataLoader, pls modify this function"""
-    train_loader = torch.utils.data.DataLoader(dataset1, **train_kwargs, shuffle=True)
-    test_loader = torch.utils.data.DataLoader(dataset2, **test_kwargs, shuffle=True)
+    generator = torch.Generator().manual_seed(config.seed)
+    train_loader = torch.utils.data.DataLoader(dataset1, **train_kwargs, shuffle=True, generator=generator)
+    test_loader = torch.utils.data.DataLoader(dataset2, **test_kwargs, shuffle=True, generator=generator)
 
     model = Net().to(device)  # 部署到设备上
     optimizer = optim.Adadelta(model.parameters(), lr=0.01)  # 调用模型参数的优化器 使更准确
@@ -178,12 +178,18 @@ def run(config):
     for epoch in range(1, 16):
         train_acc, train_loss = train(config, model, device, train_loader, optimizer, epoch)
         train_info = {'epoch': epoch, 'train_acc': train_acc, 'train_loss': train_loss}
-        print(train_info)
 
+        with open(f'{outputName}', 'a') as txt:
+
+            json.dump(train_info, txt)
+            txt.write("\n")
+        print(train_info)
         test_acc, test_loss = test(model, device, test_loader)
         test_info = {'epoch': epoch, 'test_acc': test_acc, 'test_loss': test_loss}
+        with open(f'{outputName}', 'a') as txt:
+            json.dump(test_info, txt)
+            txt.write("\n")
         print(test_info)
-
         scheduler.step()
         """update the records, Fill your code"""
         epoches.append(epoch)
@@ -192,33 +198,25 @@ def run(config):
         testing_accuracies.append(test_acc)
         testing_loss.append(test_loss)
     """plotting training performance with the records"""
-    training_acc_results.append(training_accuracies)
-    training_loss_results.append(training_loss)
     plot(epoches, training_loss, "training_loss" + f"{str(run_count)}")
     plot(epoches, training_accuracies, "training_accuracies" + f"{str(run_count)}")
-
     """plotting testing performance with the records"""
-    testing_acc_results.append(testing_accuracies)
-    testing_loss_results.append(testing_loss)
     plot(epoches, testing_loss, "testing_loss" + f"{str(run_count)}")
     plot(epoches, testing_accuracies, "testing_accuracies" + f"{str(run_count)}")
 
     if config.save_model:
         torch.save(model.state_dict(), "mnist_cnn_with_run_count_" + str(run_count) + ".pt")
-    run_count = run_count + 1
+    return training_loss, training_accuracies, testing_loss, testing_accuracies
 
 
-def plot_mean():
+def plot_mean(training_acc_results, training_loss_results, testing_acc_results, testing_loss_results):
     """
     Read the recorded results.
     Plot the mean results after three runs.
     :return:
     """
     """fill your code"""
-    global training_acc_results
-    global training_loss_results
-    global testing_acc_results
-    global testing_loss_results
+
     training_acc_results = np.mean(training_acc_results, axis=0)
     training_loss_results = np.mean(training_loss_results, axis=0)
     testing_acc_results = np.mean(testing_acc_results, axis=0)
@@ -232,14 +230,37 @@ def plot_mean():
 
 
 if __name__ == '__main__':
+    pool = multiprocessing.Pool(processes=3)
+
     arg = read_args()
 
     """toad training settings"""
     config = load_config(arg)
 
     """train model and record results"""
-    for i in range(3):
-        run(config)
+    config2 = copy.deepcopy(config)
+    config2.seed = 321
+    config2.run_count = 2
+    config3 = copy.deepcopy(config)
+    config3.seed = 666
+    config3.run_count = 3
+    configs = [config, config2, config3]
+    outputsTL = []
+    outputsTA = []
+    outputsTEL = []
+    outputsTEA = []
+    results = []
+    for i in configs:
+        result = pool.apply_async(run, args=(i, ))
+        results.append(result)
+    for result in results:
+        outputTL, outputTA, outputTEL, outputTEA = result.get()
+        outputsTL.append(outputTL)
+        outputsTA.append(outputTA)
+        outputsTEL.append(outputTEL)
+        outputsTEA.append(outputTEA)
+    pool.close()
+    pool.join()
 
     """plot the mean results"""
-    plot_mean()
+    plot_mean(outputsTA, outputsTL, outputsTEA, outputsTEL)
