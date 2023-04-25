@@ -1,0 +1,19 @@
+1. comment: To help me fully understand the process, I write some comments on the codes given in the template in Chinese or English.
+
+2. train: I define 'correct' and 'total_loss' to record the loss and correct in each epoch. For the 'total_loss', I use the given 'loss' and add all the values in a single epoch, then I get the 'training_loss'. For the 'training_acc', I compared the predicted result with the target of each picture and estimate all the correctly predicted samples as correct, and then I divide 'correct' by the number of all the samples as the 'training_acc'. After that, I return the training_acc and training_loss.
+
+3. test: In the testloader loop, I firstly deploy the data to the device, then I use the data to get the predicted label as putput.After that, I use F.cross_entropy to estimate the test_loss and then add them all together. For the correct, I use 'predicted' as the prediced result with the largest possibility, then I compare the predicted one with the target and estimate the number of all the correctly predicted samples as 'correct'. Lastly I divide the 'correct' by the number of all the samples and set the result as 'correct'. Finally, the 'testing_loss' is the 'test_loss', and the 'testing_acc' is the 'correct'.
+
+4. plot: I add a name parameters to the 'plot' function so that I can use it as the y_label and the title of the results. Firstly I change the epoches and performances to the numpy in order to use the matplotlib.plot function. I set the x label as 'epoch', the y label as the parameter name, and the title as the parameter name. Finally I save the image in the 'images' folder.
+
+5. run: I record the run_count corresponding to the random seeds, as 1 -> 123, 2 -> 321, 3 -> 666. I add a start info as the start sign, and both print it and write it into the output(1or2or3).txt. I add generate parameters to the train_kwargs and the test_kwargs so that the shuffle can be set as a fixed random sequence. I use a dict to record the epoch and the corresponding train_acc and train_loss, and then print them and write them into the output. For the test part, it is processed similarly. After that, I record the epoch and the information to the corresponding lists. After all the epochs, I use plot function to plot the images for the run. I add a return to get the information in the main function.
+
+6. plot_mean: I add some parameters to the plot_mean function to get the information. Each parameter with suffix 'results' is a list containing three lists containing the test and train info of three runs. Then I use np.mean to get the mean results and use plot function plot four mean result images.
+
+7. mean: I copy the read config as a new config dict and then change the random seed to 321 666 separately, with run_count changed to 2 and 3. Then I use five list to record the results that the run function returns. To use multi-processing, I build a multiprocessing pool with 3 processes. I use a loop to add the run to the pool with corresponding configs and a results list to record the results. After that, I use the lists to record the results and get the appropriate form for the plot_mean. Then I close the pool. Finally I use the plot_mean to plot the mean results images.
+
+
+
+
+
+
