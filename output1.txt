@@ -937,7 +937,6 @@ TRAIN---: 1---epoch:1---batch_idx: 934---Single loss=0.31073009967803955, ---Sin
 TRAIN---: 1---epoch:1---batch_idx: 935---Single loss=0.32293701171875, ---Single correct=0.90625
 TRAIN---: 1---epoch:1---batch_idx: 936---Single loss=0.4872492253780365, ---Single correct=0.875
 TRAIN---: 1---epoch:1---batch_idx: 937---Single loss=0.5615881085395813, ---Single correct=0.421875
-{"epoch": 1, "train_acc": 0.7891, "train_loss": 0.011429002575576306}
 TEST---: 1---test batch: 0---Single loss=0.2934185266494751, ---Single correct=0.918
 TEST---: 1---test batch: 1---Single loss=0.2967342734336853, ---Single correct=0.919
 TEST---: 1---test batch: 2---Single loss=0.2829154431819916, ---Single correct=0.918
@@ -948,7 +947,8 @@ TEST---: 1---test batch: 6---Single loss=0.29301518201828003, ---Single correct=
 TEST---: 1---test batch: 7---Single loss=0.2941147983074188, ---Single correct=0.913
 TEST---: 1---test batch: 8---Single loss=0.279051810503006, ---Single correct=0.921
 TEST---: 1---test batch: 9---Single loss=0.266042023897171, ---Single correct=0.922
-{"epoch": 1, "test_acc": 0.9218, "test_loss": 0.00027621061503887176}
+{"epoch": 1, "train_acc": 0.7891, "train_loss": 0.7311566511789958}
+{"epoch": 1, "test_acc": 0.9218, "test_loss": 0.2762106150388718}
 TRAIN---: 1---epoch:2---batch_idx: 0---Single loss=0.3608332574367523, ---Single correct=0.890625
 TRAIN---: 1---epoch:2---batch_idx: 1---Single loss=0.5021404027938843, ---Single correct=0.859375
 TRAIN---: 1---epoch:2---batch_idx: 2---Single loss=0.33510804176330566, ---Single correct=0.921875
@@ -1887,7 +1887,6 @@ TRAIN---: 1---epoch:2---batch_idx: 934---Single loss=0.2927686870098114, ---Sing
 TRAIN---: 1---epoch:2---batch_idx: 935---Single loss=0.15805470943450928, ---Single correct=0.96875
 TRAIN---: 1---epoch:2---batch_idx: 936---Single loss=0.2974659204483032, ---Single correct=0.9375
 TRAIN---: 1---epoch:2---batch_idx: 937---Single loss=0.4934442937374115, ---Single correct=0.453125
-{"epoch": 2, "train_acc": 0.8930666666666667, "train_loss": 0.0055861995520691075}
 TEST---: 1---test batch: 0---Single loss=0.1894986778497696, ---Single correct=0.943
 TEST---: 1---test batch: 1---Single loss=0.2547544538974762, ---Single correct=0.925
 TEST---: 1---test batch: 2---Single loss=0.1849212497472763, ---Single correct=0.952
@@ -1898,7 +1897,8 @@ TEST---: 1---test batch: 6---Single loss=0.20002703368663788, ---Single correct=
 TEST---: 1---test batch: 7---Single loss=0.24245475232601166, ---Single correct=0.93
 TEST---: 1---test batch: 8---Single loss=0.21535983681678772, ---Single correct=0.931
 TEST---: 1---test batch: 9---Single loss=0.242341548204422, ---Single correct=0.929
-{"epoch": 2, "test_acc": 0.9381, "test_loss": 0.0002162791222333908}
+{"epoch": 2, "train_acc": 0.8930666666666667, "train_loss": 0.3572536010424296}
+{"epoch": 2, "test_acc": 0.9381, "test_loss": 0.2162791222333908}
 TRAIN---: 1---epoch:3---batch_idx: 0---Single loss=0.19592726230621338, ---Single correct=0.984375
 TRAIN---: 1---epoch:3---batch_idx: 1---Single loss=0.21703192591667175, ---Single correct=0.921875
 TRAIN---: 1---epoch:3---batch_idx: 2---Single loss=0.45154401659965515, ---Single correct=0.8125
@@ -2837,7 +2837,6 @@ TRAIN---: 1---epoch:3---batch_idx: 934---Single loss=0.3095565438270569, ---Sing
 TRAIN---: 1---epoch:3---batch_idx: 935---Single loss=0.3473454713821411, ---Single correct=0.875
 TRAIN---: 1---epoch:3---batch_idx: 936---Single loss=0.28067636489868164, ---Single correct=0.875
 TRAIN---: 1---epoch:3---batch_idx: 937---Single loss=0.0692611038684845, ---Single correct=0.5
-{"epoch": 3, "train_acc": 0.9110666666666667, "train_loss": 0.0047082305206606785}
 TEST---: 1---test batch: 0---Single loss=0.20084507763385773, ---Single correct=0.944
 TEST---: 1---test batch: 1---Single loss=0.1706494241952896, ---Single correct=0.954
 TEST---: 1---test batch: 2---Single loss=0.1898595690727234, ---Single correct=0.938
@@ -2848,7 +2847,8 @@ TEST---: 1---test batch: 6---Single loss=0.19083355367183685, ---Single correct=
 TEST---: 1---test batch: 7---Single loss=0.16905300319194794, ---Single correct=0.945
 TEST---: 1---test batch: 8---Single loss=0.20524147152900696, ---Single correct=0.938
 TEST---: 1---test batch: 9---Single loss=0.19961880147457123, ---Single correct=0.942
-{"epoch": 3, "test_acc": 0.9438, "test_loss": 0.00019032926559448243}
+{"epoch": 3, "train_acc": 0.9110666666666667, "train_loss": 0.30128981406688693}
+{"epoch": 3, "test_acc": 0.9438, "test_loss": 0.19032926559448243}
 TRAIN---: 1---epoch:4---batch_idx: 0---Single loss=0.3295876085758209, ---Single correct=0.90625
 TRAIN---: 1---epoch:4---batch_idx: 1---Single loss=0.17684443295001984, ---Single correct=0.984375
 TRAIN---: 1---epoch:4---batch_idx: 2---Single loss=0.4209299087524414, ---Single correct=0.890625
@@ -3787,7 +3787,6 @@ TRAIN---: 1---epoch:4---batch_idx: 934---Single loss=0.2708032429218292, ---Sing
 TRAIN---: 1---epoch:4---batch_idx: 935---Single loss=0.39891791343688965, ---Single correct=0.921875
 TRAIN---: 1---epoch:4---batch_idx: 936---Single loss=0.33423924446105957, ---Single correct=0.84375
 TRAIN---: 1---epoch:4---batch_idx: 937---Single loss=0.18592405319213867, ---Single correct=0.5
-{"epoch": 4, "train_acc": 0.9202833333333333, "train_loss": 0.00428364739442865}
 TEST---: 1---test batch: 0---Single loss=0.17147715389728546, ---Single correct=0.949
 TEST---: 1---test batch: 1---Single loss=0.15492449700832367, ---Single correct=0.96
 TEST---: 1---test batch: 2---Single loss=0.16125747561454773, ---Single correct=0.954
@@ -3798,7 +3797,8 @@ TEST---: 1---test batch: 6---Single loss=0.14766141772270203, ---Single correct=
 TEST---: 1---test batch: 7---Single loss=0.18993526697158813, ---Single correct=0.944
 TEST---: 1---test batch: 8---Single loss=0.23147372901439667, ---Single correct=0.929
 TEST---: 1---test batch: 9---Single loss=0.1865977793931961, ---Single correct=0.957
-{"epoch": 4, "test_acc": 0.948, "test_loss": 0.00017559139877557753}
+{"epoch": 4, "train_acc": 0.9202833333333333, "train_loss": 0.2740542737483978}
+{"epoch": 4, "test_acc": 0.948, "test_loss": 0.17559139877557756}
 TRAIN---: 1---epoch:5---batch_idx: 0---Single loss=0.25368040800094604, ---Single correct=0.921875
 TRAIN---: 1---epoch:5---batch_idx: 1---Single loss=0.2577548325061798, ---Single correct=0.9375
 TRAIN---: 1---epoch:5---batch_idx: 2---Single loss=0.27182331681251526, ---Single correct=0.921875
@@ -4737,7 +4737,6 @@ TRAIN---: 1---epoch:5---batch_idx: 934---Single loss=0.27371126413345337, ---Sin
 TRAIN---: 1---epoch:5---batch_idx: 935---Single loss=0.32977399230003357, ---Single correct=0.9375
 TRAIN---: 1---epoch:5---batch_idx: 936---Single loss=0.19118882715702057, ---Single correct=0.9375
 TRAIN---: 1---epoch:5---batch_idx: 937---Single loss=0.31055936217308044, ---Single correct=0.4375
-{"epoch": 5, "train_acc": 0.9239, "train_loss": 0.004015528419365486}
 TEST---: 1---test batch: 0---Single loss=0.16205643117427826, ---Single correct=0.949
 TEST---: 1---test batch: 1---Single loss=0.180226668715477, ---Single correct=0.948
 TEST---: 1---test batch: 2---Single loss=0.15915633738040924, ---Single correct=0.953
@@ -4748,7 +4747,8 @@ TEST---: 1---test batch: 6---Single loss=0.17335611581802368, ---Single correct=
 TEST---: 1---test batch: 7---Single loss=0.1512851119041443, ---Single correct=0.95
 TEST---: 1---test batch: 8---Single loss=0.1519448608160019, ---Single correct=0.957
 TEST---: 1---test batch: 9---Single loss=0.189105823636055, ---Single correct=0.936
-{"epoch": 5, "test_acc": 0.9503, "test_loss": 0.0001660003036260605}
+{"epoch": 5, "train_acc": 0.9239, "train_loss": 0.2568281871795654}
+{"epoch": 5, "test_acc": 0.9503, "test_loss": 0.1660003036260605}
 TRAIN---: 1---epoch:6---batch_idx: 0---Single loss=0.24141493439674377, ---Single correct=0.9375
 TRAIN---: 1---epoch:6---batch_idx: 1---Single loss=0.32418033480644226, ---Single correct=0.875
 TRAIN---: 1---epoch:6---batch_idx: 2---Single loss=0.18574225902557373, ---Single correct=0.953125
@@ -5687,7 +5687,6 @@ TRAIN---: 1---epoch:6---batch_idx: 934---Single loss=0.2506125271320343, ---Sing
 TRAIN---: 1---epoch:6---batch_idx: 935---Single loss=0.10794220119714737, ---Single correct=1.0
 TRAIN---: 1---epoch:6---batch_idx: 936---Single loss=0.2234165221452713, ---Single correct=0.96875
 TRAIN---: 1---epoch:6---batch_idx: 937---Single loss=0.12312310934066772, ---Single correct=0.5
-{"epoch": 6, "train_acc": 0.9286666666666666, "train_loss": 0.003832348380237818}
 TEST---: 1---test batch: 0---Single loss=0.18153759837150574, ---Single correct=0.954
 TEST---: 1---test batch: 1---Single loss=0.1401767134666443, ---Single correct=0.961
 TEST---: 1---test batch: 2---Single loss=0.14531606435775757, ---Single correct=0.955
@@ -5698,7 +5697,8 @@ TEST---: 1---test batch: 6---Single loss=0.1572602093219757, ---Single correct=0
 TEST---: 1---test batch: 7---Single loss=0.19701524078845978, ---Single correct=0.939
 TEST---: 1---test batch: 8---Single loss=0.1571948081254959, ---Single correct=0.953
 TEST---: 1---test batch: 9---Single loss=0.14215634763240814, ---Single correct=0.955
-{"epoch": 6, "test_acc": 0.9534, "test_loss": 0.00015952330976724623}
+{"epoch": 6, "train_acc": 0.9286666666666666, "train_loss": 0.24520463067690532}
+{"epoch": 6, "test_acc": 0.9534, "test_loss": 0.15952330976724624}
 TRAIN---: 1---epoch:7---batch_idx: 0---Single loss=0.2042880356311798, ---Single correct=0.921875
 TRAIN---: 1---epoch:7---batch_idx: 1---Single loss=0.31575438380241394, ---Single correct=0.875
 TRAIN---: 1---epoch:7---batch_idx: 2---Single loss=0.22681838274002075, ---Single correct=0.9375
@@ -6637,7 +6637,6 @@ TRAIN---: 1---epoch:7---batch_idx: 934---Single loss=0.09795142710208893, ---Sin
 TRAIN---: 1---epoch:7---batch_idx: 935---Single loss=0.1514287143945694, ---Single correct=0.96875
 TRAIN---: 1---epoch:7---batch_idx: 936---Single loss=0.23050595819950104, ---Single correct=0.90625
 TRAIN---: 1---epoch:7---batch_idx: 937---Single loss=0.19198298454284668, ---Single correct=0.484375
-{"epoch": 7, "train_acc": 0.9292833333333334, "train_loss": 0.0037659355493883293}
 TEST---: 1---test batch: 0---Single loss=0.15905478596687317, ---Single correct=0.956
 TEST---: 1---test batch: 1---Single loss=0.1295628845691681, ---Single correct=0.96
 TEST---: 1---test batch: 2---Single loss=0.1570950150489807, ---Single correct=0.955
@@ -6648,7 +6647,8 @@ TEST---: 1---test batch: 6---Single loss=0.16903986036777496, ---Single correct=
 TEST---: 1---test batch: 7---Single loss=0.1632586270570755, ---Single correct=0.955
 TEST---: 1---test batch: 8---Single loss=0.1398971825838089, ---Single correct=0.96
 TEST---: 1---test batch: 9---Single loss=0.16345825791358948, ---Single correct=0.951
-{"epoch": 7, "test_acc": 0.9548, "test_loss": 0.00015598756223917008}
+{"epoch": 7, "train_acc": 0.9292833333333334, "train_loss": 0.24091748423576356}
+{"epoch": 7, "test_acc": 0.9548, "test_loss": 0.15598756223917007}
 TRAIN---: 1---epoch:8---batch_idx: 0---Single loss=0.37208235263824463, ---Single correct=0.90625
 TRAIN---: 1---epoch:8---batch_idx: 1---Single loss=0.2251511812210083, ---Single correct=0.953125
 TRAIN---: 1---epoch:8---batch_idx: 2---Single loss=0.5033841133117676, ---Single correct=0.84375
@@ -7587,7 +7587,6 @@ TRAIN---: 1---epoch:8---batch_idx: 934---Single loss=0.334781289100647, ---Singl
 TRAIN---: 1---epoch:8---batch_idx: 935---Single loss=0.185480996966362, ---Single correct=0.96875
 TRAIN---: 1---epoch:8---batch_idx: 936---Single loss=0.2984737753868103, ---Single correct=0.90625
 TRAIN---: 1---epoch:8---batch_idx: 937---Single loss=0.10446443408727646, ---Single correct=0.5
-{"epoch": 8, "train_acc": 0.9307833333333333, "train_loss": 0.0036845828836162887}
 TEST---: 1---test batch: 0---Single loss=0.15399152040481567, ---Single correct=0.957
 TEST---: 1---test batch: 1---Single loss=0.16791966557502747, ---Single correct=0.952
 TEST---: 1---test batch: 2---Single loss=0.13935789465904236, ---Single correct=0.959
@@ -7598,7 +7597,8 @@ TEST---: 1---test batch: 6---Single loss=0.1405361145734787, ---Single correct=0
 TEST---: 1---test batch: 7---Single loss=0.17579396069049835, ---Single correct=0.951
 TEST---: 1---test batch: 8---Single loss=0.14072780311107635, ---Single correct=0.962
 TEST---: 1---test batch: 9---Single loss=0.1648126095533371, ---Single correct=0.949
-{"epoch": 8, "test_acc": 0.955, "test_loss": 0.00015298732966184615}
+{"epoch": 8, "train_acc": 0.9307833333333333, "train_loss": 0.23575759018659592}
+{"epoch": 8, "test_acc": 0.955, "test_loss": 0.15298732966184617}
 TRAIN---: 1---epoch:9---batch_idx: 0---Single loss=0.4548502266407013, ---Single correct=0.84375
 TRAIN---: 1---epoch:9---batch_idx: 1---Single loss=0.2855270504951477, ---Single correct=0.90625
 TRAIN---: 1---epoch:9---batch_idx: 2---Single loss=0.12888728082180023, ---Single correct=0.953125
@@ -8537,7 +8537,6 @@ TRAIN---: 1---epoch:9---batch_idx: 934---Single loss=0.18803513050079346, ---Sin
 TRAIN---: 1---epoch:9---batch_idx: 935---Single loss=0.2600390315055847, ---Single correct=0.9375
 TRAIN---: 1---epoch:9---batch_idx: 936---Single loss=0.1427791863679886, ---Single correct=0.96875
 TRAIN---: 1---epoch:9---batch_idx: 937---Single loss=0.10917661339044571, ---Single correct=0.5
-{"epoch": 9, "train_acc": 0.9322666666666667, "train_loss": 0.0036280726245914896}
 TEST---: 1---test batch: 0---Single loss=0.12087654322385788, ---Single correct=0.968
 TEST---: 1---test batch: 1---Single loss=0.15820755064487457, ---Single correct=0.952
 TEST---: 1---test batch: 2---Single loss=0.16411364078521729, ---Single correct=0.958
@@ -8548,7 +8547,8 @@ TEST---: 1---test batch: 6---Single loss=0.15335875749588013, ---Single correct=
 TEST---: 1---test batch: 7---Single loss=0.15133622288703918, ---Single correct=0.959
 TEST---: 1---test batch: 8---Single loss=0.1602051556110382, ---Single correct=0.953
 TEST---: 1---test batch: 9---Single loss=0.14573657512664795, ---Single correct=0.959
-{"epoch": 9, "test_acc": 0.9558, "test_loss": 0.00015109936371445655}
+{"epoch": 9, "train_acc": 0.9322666666666667, "train_loss": 0.23213842044671376}
+{"epoch": 9, "test_acc": 0.9558, "test_loss": 0.15109936371445656}
 TRAIN---: 1---epoch:10---batch_idx: 0---Single loss=0.21790464222431183, ---Single correct=0.9375
 TRAIN---: 1---epoch:10---batch_idx: 1---Single loss=0.3635408878326416, ---Single correct=0.890625
 TRAIN---: 1---epoch:10---batch_idx: 2---Single loss=0.2417822778224945, ---Single correct=0.90625
@@ -9487,7 +9487,6 @@ TRAIN---: 1---epoch:10---batch_idx: 934---Single loss=0.20844505727291107, ---Si
 TRAIN---: 1---epoch:10---batch_idx: 935---Single loss=0.28520625829696655, ---Single correct=0.859375
 TRAIN---: 1---epoch:10---batch_idx: 936---Single loss=0.14818572998046875, ---Single correct=0.921875
 TRAIN---: 1---epoch:10---batch_idx: 937---Single loss=0.4555892050266266, ---Single correct=0.453125
-{"epoch": 10, "train_acc": 0.9339166666666666, "train_loss": 0.003599396308946113}
 TEST---: 1---test batch: 0---Single loss=0.13014797866344452, ---Single correct=0.965
 TEST---: 1---test batch: 1---Single loss=0.1488843709230423, ---Single correct=0.95
 TEST---: 1---test batch: 2---Single loss=0.15067194402217865, ---Single correct=0.957
@@ -9498,7 +9497,8 @@ TEST---: 1---test batch: 6---Single loss=0.13853998482227325, ---Single correct=
 TEST---: 1---test batch: 7---Single loss=0.1803460717201233, ---Single correct=0.942
 TEST---: 1---test batch: 8---Single loss=0.16589711606502533, ---Single correct=0.957
 TEST---: 1---test batch: 9---Single loss=0.15050917863845825, ---Single correct=0.958
-{"epoch": 10, "test_acc": 0.9558, "test_loss": 0.00014985063523054122}
+{"epoch": 10, "train_acc": 0.9339166666666666, "train_loss": 0.23011838286320369}
+{"epoch": 10, "test_acc": 0.9558, "test_loss": 0.14985063523054123}
 TRAIN---: 1---epoch:11---batch_idx: 0---Single loss=0.2970326542854309, ---Single correct=0.890625
 TRAIN---: 1---epoch:11---batch_idx: 1---Single loss=0.2867388427257538, ---Single correct=0.921875
 TRAIN---: 1---epoch:11---batch_idx: 2---Single loss=0.20434953272342682, ---Single correct=0.953125
@@ -10437,7 +10437,6 @@ TRAIN---: 1---epoch:11---batch_idx: 934---Single loss=0.119640052318573, ---Sing
 TRAIN---: 1---epoch:11---batch_idx: 935---Single loss=0.46793752908706665, ---Single correct=0.859375
 TRAIN---: 1---epoch:11---batch_idx: 936---Single loss=0.321155309677124, ---Single correct=0.90625
 TRAIN---: 1---epoch:11---batch_idx: 937---Single loss=0.10389178991317749, ---Single correct=0.46875
-{"epoch": 11, "train_acc": 0.9337, "train_loss": 0.0035608991788700223}
 TEST---: 1---test batch: 0---Single loss=0.15364716947078705, ---Single correct=0.95
 TEST---: 1---test batch: 1---Single loss=0.16495174169540405, ---Single correct=0.952
 TEST---: 1---test batch: 2---Single loss=0.15942047536373138, ---Single correct=0.949
@@ -10448,7 +10447,8 @@ TEST---: 1---test batch: 6---Single loss=0.16278551518917084, ---Single correct=
 TEST---: 1---test batch: 7---Single loss=0.1429368108510971, ---Single correct=0.96
 TEST---: 1---test batch: 8---Single loss=0.1634405553340912, ---Single correct=0.953
 TEST---: 1---test batch: 9---Single loss=0.14222542941570282, ---Single correct=0.961
-{"epoch": 11, "test_acc": 0.9559, "test_loss": 0.0001491007775068283}
+{"epoch": 11, "train_acc": 0.9337, "train_loss": 0.22784213849306106}
+{"epoch": 11, "test_acc": 0.9559, "test_loss": 0.14910077750682832}
 TRAIN---: 1---epoch:12---batch_idx: 0---Single loss=0.2207556664943695, ---Single correct=0.90625
 TRAIN---: 1---epoch:12---batch_idx: 1---Single loss=0.07876808941364288, ---Single correct=1.0
 TRAIN---: 1---epoch:12---batch_idx: 2---Single loss=0.2561572194099426, ---Single correct=0.9375
@@ -11387,7 +11387,6 @@ TRAIN---: 1---epoch:12---batch_idx: 934---Single loss=0.2433335930109024, ---Sin
 TRAIN---: 1---epoch:12---batch_idx: 935---Single loss=0.27620580792427063, ---Single correct=0.90625
 TRAIN---: 1---epoch:12---batch_idx: 936---Single loss=0.3659868538379669, ---Single correct=0.859375
 TRAIN---: 1---epoch:12---batch_idx: 937---Single loss=0.17378875613212585, ---Single correct=0.46875
-{"epoch": 12, "train_acc": 0.9326, "train_loss": 0.0035205092517038186}
 TEST---: 1---test batch: 0---Single loss=0.14132733643054962, ---Single correct=0.962
 TEST---: 1---test batch: 1---Single loss=0.16285863518714905, ---Single correct=0.948
 TEST---: 1---test batch: 2---Single loss=0.1336284726858139, ---Single correct=0.964
@@ -11398,7 +11397,8 @@ TEST---: 1---test batch: 6---Single loss=0.15339244902133942, ---Single correct=
 TEST---: 1---test batch: 7---Single loss=0.14930063486099243, ---Single correct=0.957
 TEST---: 1---test batch: 8---Single loss=0.12838487327098846, ---Single correct=0.963
 TEST---: 1---test batch: 9---Single loss=0.15728673338890076, ---Single correct=0.953
-{"epoch": 12, "test_acc": 0.9561, "test_loss": 0.00014839954376220704}
+{"epoch": 12, "train_acc": 0.9326, "train_loss": 0.22521990477244058}
+{"epoch": 12, "test_acc": 0.9561, "test_loss": 0.14839954376220704}
 TRAIN---: 1---epoch:13---batch_idx: 0---Single loss=0.17220664024353027, ---Single correct=0.921875
 TRAIN---: 1---epoch:13---batch_idx: 1---Single loss=0.21703879535198212, ---Single correct=0.953125
 TRAIN---: 1---epoch:13---batch_idx: 2---Single loss=0.21313965320587158, ---Single correct=0.9375
@@ -12337,7 +12337,6 @@ TRAIN---: 1---epoch:13---batch_idx: 934---Single loss=0.219745934009552, ---Sing
 TRAIN---: 1---epoch:13---batch_idx: 935---Single loss=0.4020431637763977, ---Single correct=0.890625
 TRAIN---: 1---epoch:13---batch_idx: 936---Single loss=0.17537949979305267, ---Single correct=0.96875
 TRAIN---: 1---epoch:13---batch_idx: 937---Single loss=0.1190122738480568, ---Single correct=0.484375
-{"epoch": 13, "train_acc": 0.9336333333333333, "train_loss": 0.0035616413364807763}
 TEST---: 1---test batch: 0---Single loss=0.17914222180843353, ---Single correct=0.947
 TEST---: 1---test batch: 1---Single loss=0.12947341799736023, ---Single correct=0.964
 TEST---: 1---test batch: 2---Single loss=0.1494911015033722, ---Single correct=0.962
@@ -12348,7 +12347,8 @@ TEST---: 1---test batch: 6---Single loss=0.14586229622364044, ---Single correct=
 TEST---: 1---test batch: 7---Single loss=0.14248962700366974, ---Single correct=0.961
 TEST---: 1---test batch: 8---Single loss=0.15886743366718292, ---Single correct=0.954
 TEST---: 1---test batch: 9---Single loss=0.12417247146368027, ---Single correct=0.954
-{"epoch": 13, "test_acc": 0.956, "test_loss": 0.0001479726277291775}
+{"epoch": 13, "train_acc": 0.9336333333333333, "train_loss": 0.22788157232205072}
+{"epoch": 13, "test_acc": 0.956, "test_loss": 0.14797262772917746}
 TRAIN---: 1---epoch:14---batch_idx: 0---Single loss=0.3868960440158844, ---Single correct=0.9375
 TRAIN---: 1---epoch:14---batch_idx: 1---Single loss=0.4749738276004791, ---Single correct=0.921875
 TRAIN---: 1---epoch:14---batch_idx: 2---Single loss=0.1871025115251541, ---Single correct=0.921875
@@ -13287,7 +13287,6 @@ TRAIN---: 1---epoch:14---batch_idx: 934---Single loss=0.254154771566391, ---Sing
 TRAIN---: 1---epoch:14---batch_idx: 935---Single loss=0.226314514875412, ---Single correct=0.90625
 TRAIN---: 1---epoch:14---batch_idx: 936---Single loss=0.16553926467895508, ---Single correct=0.953125
 TRAIN---: 1---epoch:14---batch_idx: 937---Single loss=0.16767451167106628, ---Single correct=0.484375
-{"epoch": 14, "train_acc": 0.9340666666666667, "train_loss": 0.0035169458302979667}
 TEST---: 1---test batch: 0---Single loss=0.13850410282611847, ---Single correct=0.954
 TEST---: 1---test batch: 1---Single loss=0.15528221428394318, ---Single correct=0.943
 TEST---: 1---test batch: 2---Single loss=0.11692418158054352, ---Single correct=0.967
@@ -13298,7 +13297,8 @@ TEST---: 1---test batch: 6---Single loss=0.15296711027622223, ---Single correct=
 TEST---: 1---test batch: 7---Single loss=0.1743551343679428, ---Single correct=0.946
 TEST---: 1---test batch: 8---Single loss=0.15535368025302887, ---Single correct=0.96
 TEST---: 1---test batch: 9---Single loss=0.13634900748729706, ---Single correct=0.961
-{"epoch": 14, "test_acc": 0.9561, "test_loss": 0.0001477507561445236}
+{"epoch": 14, "train_acc": 0.9340666666666667, "train_loss": 0.2249951067328453}
+{"epoch": 14, "test_acc": 0.9561, "test_loss": 0.14775075614452363}
 TRAIN---: 1---epoch:15---batch_idx: 0---Single loss=0.16075463593006134, ---Single correct=0.96875
 TRAIN---: 1---epoch:15---batch_idx: 1---Single loss=0.305295467376709, ---Single correct=0.921875
 TRAIN---: 1---epoch:15---batch_idx: 2---Single loss=0.14851239323616028, ---Single correct=0.953125
@@ -14237,7 +14237,6 @@ TRAIN---: 1---epoch:15---batch_idx: 934---Single loss=0.18457116186618805, ---Si
 TRAIN---: 1---epoch:15---batch_idx: 935---Single loss=0.249609112739563, ---Single correct=0.921875
 TRAIN---: 1---epoch:15---batch_idx: 936---Single loss=0.29445046186447144, ---Single correct=0.90625
 TRAIN---: 1---epoch:15---batch_idx: 937---Single loss=0.24807147681713104, ---Single correct=0.46875
-{"epoch": 15, "train_acc": 0.9343, "train_loss": 0.0035331580739468337}
 TEST---: 1---test batch: 0---Single loss=0.1900528222322464, ---Single correct=0.948
 TEST---: 1---test batch: 1---Single loss=0.16251420974731445, ---Single correct=0.95
 TEST---: 1---test batch: 2---Single loss=0.13621880114078522, ---Single correct=0.963
@@ -14248,4 +14247,5 @@ TEST---: 1---test batch: 6---Single loss=0.14105011522769928, ---Single correct=
 TEST---: 1---test batch: 7---Single loss=0.13614962995052338, ---Single correct=0.963
 TEST---: 1---test batch: 8---Single loss=0.13456396758556366, ---Single correct=0.961
 TEST---: 1---test batch: 9---Single loss=0.12486931681632996, ---Single correct=0.959
-{"epoch": 15, "test_acc": 0.9563, "test_loss": 0.00014753282964229583}
+{"epoch": 15, "train_acc": 0.9343, "train_loss": 0.22598981194496154}
+{"epoch": 15, "test_acc": 0.9563, "test_loss": 0.14753282964229583}

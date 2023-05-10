@@ -1,7 +1,7 @@
 from __future__ import print_function
 import copy
 import multiprocessing
-
+from time import sleep
 import numpy
 import torch
 import torch.nn as nn
@@ -43,7 +43,7 @@ class Net(nn.Module):
         return output
 
 
-def train(args, model, device, train_loader, optimizer, epoch):
+def train(args, model, device, train_loader, optimizer, epoch, lock):
     """
     tain the model and return the training accuracy
     :param args: input arguments
@@ -65,7 +65,7 @@ def train(args, model, device, train_loader, optimizer, epoch):
         optimizer.zero_grad()
         output = model(data)
         loss = F.nll_loss(output, target)
-        total_loss += loss.item()
+        total_loss += loss.item()  * len(data)
         EachLoss = loss.item()
         predicted = torch.max(output, 1)[1]
         correct += (predicted == target).sum().item()
@@ -81,8 +81,9 @@ def train(args, model, device, train_loader, optimizer, epoch):
         with open(f'{outputName}', 'a') as txt:
             txt.write(info)
             txt.write("\n")
-
-        print(info)
+        with lock:
+            print(info)
+            sleep(0.0005)
 
     # to get the average correct ratio for the whole dataset, so it's using the sum of the loss and correct of the whole
     # dataset
@@ -92,7 +93,7 @@ def train(args, model, device, train_loader, optimizer, epoch):
     return training_acc, training_loss
 
 
-def test(args, model, device, test_loader):
+def test(args, model, device, test_loader, lock):
     """
     test the model and return the tesing accuracy
     :param model: neural network model
@@ -112,19 +113,21 @@ def test(args, model, device, test_loader):
             data, target = data.to(device), target.to(device)
             output = model(data)
             EachLoss = F.cross_entropy(output, target).item()
-            test_loss = test_loss + F.cross_entropy(output, target).item()
+            test_loss = test_loss + F.cross_entropy(output, target).item() * len(data)
             predicted = output.max(1, keepdim=True)[1]
             EachCorrect = predicted.eq(target.view_as(predicted)).sum().item()
             correct = correct + predicted.eq(target.view_as(predicted)).sum().item()
             EachCorrect = EachCorrect / test_loader.batch_size
             outputName = "output" + str(args.run_count) + ".txt"
             info = "TEST---: " + str(args.run_count) + "---test batch: " + str(batch_idx) + "---Single loss=" + \
-                str(EachLoss) + ", ---Single correct=" + str(EachCorrect)
+                   str(EachLoss) + ", ---Single correct=" + str(EachCorrect)
             # write the data to the corresponding file
             with open(f'{outputName}', 'a') as txt:
                 txt.write(info)
                 txt.write("\n")
-            print(info)
+            with lock:
+                print(info)
+                sleep(0.0005)
         # similarly, use the total loss and correct to compute the final average results
         test_loss /= len(test_loader.dataset)
         correct = correct / len(test_loader.dataset)
@@ -132,7 +135,7 @@ def test(args, model, device, test_loader):
     return testing_acc, testing_loss
 
 
-def plot(epoches, performance, name):
+def plot(epoches, performance, name, lock):
     """
     plot the model peformance
     :param epoches: recorded epoches
@@ -140,33 +143,31 @@ def plot(epoches, performance, name):
     :return:
     """
     """Fill your code"""
-
     epoches = numpy.array(epoches)
     performance = numpy.array(performance)
     # set the fig size to show all the information in the graph
-    plt.figure(figsize=(8, 6))
-    plt.plot(epoches, performance)  # plot the graph
-    plt.xlabel('epoch')  # set the x label
-    plt.ylabel(f'{name}')  # set the y label
-    plt.title(f'{name}' + " with Epochs", fontsize=20)  # set the title and enlarge the font size
-    plt.savefig(f'images/{name}.png')  # restore the image
-    plt.show()  # show and clear the image
+    with lock:
+        plt.figure(figsize=(8, 6))
+        plt.plot(epoches, performance)  # plot the graph
+        plt.xlabel('epoch')  # set the x label
+        plt.ylabel(f'{name}')  # set the y label
+        plt.title(f'{name}' + " with Epochs", fontsize=20)  # set the title and enlarge the font size
+        plt.savefig(f'images/{name}.png')  # restore the image
+        plt.show()  # show and clear the image
 
 
-def run(config):
+def run(config, lock1, lock2, q, stop):
     # use the run_count to label what is the sequence number of the run
     run_count = config.run_count
     # set the name of the output file using run_count
     outputName = "output" + str(run_count) + ".txt"
-    # 超参数配置
-
+    infos = []
     start = "------------------------------This is the " + str(run_count) + " time------------------------------"
     # in the terminal, show the process is operating
     # start writing the output file
     with open(f'{outputName}', 'w') as txt:
         txt.write(start)
         txt.write("\n")
-    print(start)
     use_cuda = (not True) and torch.cuda.is_available()  # test whether cuda is av
     use_mps = (not True) and torch.backends.mps.is_available()  # test whether mps is av
 
@@ -215,19 +216,30 @@ def run(config):
     scheduler = StepLR(optimizer, step_size=1, gamma=0.7)
     # in the loop, use train_info to show the information in the training test_info in the testing process
     for epoch in range(1, config.epochs + 1):
-        train_acc, train_loss = train(config, model, device, train_loader, optimizer, epoch)
+        train_acc, train_loss = train(config, model, device, train_loader, optimizer, epoch, lock2)
         train_info = {'epoch': epoch, 'train_acc': train_acc, 'train_loss': train_loss}
+        stop.value = 0
+        test_acc, test_loss = test(config, model, device, test_loader, lock2)
+        test_info = {'epoch': epoch, 'test_acc': test_acc, 'test_loss': test_loss}
+        with lock2:
+            # stop equals when you get the value the value is
+            stop.value = stop.value + 1
+        while stop.value < 3:
+            sleep(0.0001)
+
         # write into the corresponding file
         with open(f'{outputName}', 'a') as txt:
             json.dump(train_info, txt)
             txt.write("\n")
-        print(train_info)
-        test_acc, test_loss = test(config, model, device, test_loader)
-        test_info = {'epoch': epoch, 'test_acc': test_acc, 'test_loss': test_loss}
         with open(f'{outputName}', 'a') as txt:
             json.dump(test_info, txt)
             txt.write("\n")
-        print(test_info)
+
+        with lock2:
+            print(str(train_info) + "---" + str(run_count))
+            print(str(test_info) + "---" + str(run_count))
+            sleep(0.001)
+
         scheduler.step()
         # update the info in the list
         epoches.append(epoch)
@@ -237,17 +249,21 @@ def run(config):
         testing_loss.append(test_loss)
 
     # plot the 4 graphs
-    plot(epoches, training_loss, "training_loss" + f"{str(run_count)}")
-    plot(epoches, training_accuracies, "training_accuracies" + f"{str(run_count)}")
-    plot(epoches, testing_loss, "testing_loss" + f"{str(run_count)}")
-    plot(epoches, testing_accuracies, "testing_accuracies" + f"{str(run_count)}")
+    plot(epoches, training_loss, "training_loss" + f"{str(run_count)}", lock1)
+    plot(epoches, training_accuracies, "training_accuracies" + f"{str(run_count)}", lock1)
+    plot(epoches, testing_loss, "testing_loss" + f"{str(run_count)}", lock1)
+    plot(epoches, testing_accuracies, "testing_accuracies" + f"{str(run_count)}", lock1)
 
     if config.save_model:
         torch.save(model.state_dict(), "mnist_cnn_with_run_count_" + str(run_count) + ".pt")
-    return training_loss, training_accuracies, testing_loss, testing_accuracies
+
+    q.put(training_loss)
+    q.put(training_accuracies)
+    q.put(testing_loss)
+    q.put(testing_accuracies)
 
 
-def plot_mean(training_acc_results, training_loss_results, testing_acc_results, testing_loss_results):
+def plot_mean(training_acc_results, training_loss_results, testing_acc_results, testing_loss_results, lock):
     """
     Read the recorded results.
     Plot the mean results after three runs.
@@ -262,16 +278,19 @@ def plot_mean(training_acc_results, training_loss_results, testing_acc_results, 
     epoches = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
     epoches = numpy.array(epoches)
     # plot the four images
-    plot(epoches, training_acc_results, "mean_training_acc")
-    plot(epoches, training_loss_results, "mean_training_loss")
-    plot(epoches, testing_acc_results, "mean_testing_acc")
-    plot(epoches, testing_loss_results, "mean_testing_loss")
+    plot(epoches, training_acc_results, "mean_training_acc", lock)
+    plot(epoches, training_loss_results, "mean_training_loss", lock)
+    plot(epoches, testing_acc_results, "mean_testing_acc", lock)
+    plot(epoches, testing_loss_results, "mean_testing_loss", lock)
 
 
 if __name__ == '__main__':
+    stop = multiprocessing.Value('i', 0)
     # it is said that print does not need a lock, and in the file there's not any situation where different processes
     # write in the same file, since there's three file for three processes
-    # just for plot we need a lock to achieve synchronization
+    # just for plot we need a lock to achieve synchronization lock1 for the plot function lock2 for the messy output
+    lock1 = multiprocessing.Lock()
+    lock2 = multiprocessing.Lock()
     # create a multiprocessing pool
     pool = multiprocessing.Pool(processes=3)
 
@@ -294,19 +313,39 @@ if __name__ == '__main__':
     outputsTEA = []
     results = []
     # hand out the configs with three process runs
-    for i in configs:
-        result = pool.apply_async(run, args=(i,))
-        results.append(result)
+    processes = []
+    result1 = multiprocessing.Queue()
+    result2 = multiprocessing.Queue()
+    result3 = multiprocessing.Queue()
+    process = multiprocessing.Process(target=run, args=(config, lock1, lock2, result1, stop))
+    processes.append(process)
+    process = multiprocessing.Process(target=run, args=(config2, lock1, lock2, result2, stop))
+    processes.append(process)
+    process = multiprocessing.Process(target=run, args=(config3, lock1, lock2, result3, stop))
+    processes.append(process)
     # record the results
-    for result in results:
-        outputTL, outputTA, outputTEL, outputTEA = result.get()
+    for process in processes:
+        process.start()
+    for process in processes:
+        process.join()
+    result = []
+    while not result1.empty():
+        result.append(result1.get())
+    results.append(result)
+    result = []
+    while not result2.empty():
+        result.append(result2.get())
+    results.append(result)
+    result = []
+    while not result3.empty():
+        result.append(result3.get())
+    results.append(result)
+    for i in results:
+        outputTL, outputTA, outputTEL, outputTEA = i[0], i[1], i[2], i[3]
         outputsTL.append(outputTL)
         outputsTA.append(outputTA)
         outputsTEL.append(outputTEL)
         outputsTEA.append(outputTEA)
-    # close the pool
-    pool.close()
-    pool.join()
 
     # plot the mean result
-    plot_mean(outputsTA, outputsTL, outputsTEA, outputsTEL)
+    plot_mean(outputsTA, outputsTL, outputsTEA, outputsTEL, lock1)

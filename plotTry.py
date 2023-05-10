@@ -1,15 +1,22 @@
-import matplotlib.pyplot as plt
-import numpy as np
+import threading
 
-epochs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-performances = [0.9200, 0.9280, 0.9320, 0.9400, 0.9450, 0.9520, 0.9570, 0.9650, 0.9720, 0.9760, 0.9780, 0.9798, 0.9799,
-                0.9800, 0.9800]
-plt.figure(figsize=(8, 6))  # 一定要放在plot之前
-epochs = np.array(epochs)
-performances = np.array(performances)
-picture = plt.plot(epochs, performances)
+count = 0
 
-plt.xlabel("epochs")
-plt.ylabel("performances")
-plt.title("performances-epochs picture", fontsize=20)
-plt.show()
+
+def run(lock):
+    for i in range(5):
+        with lock:
+            global count
+            count = count + 1
+
+
+lock = threading.Lock()
+thread1 = threading.Thread(target=run, args=(lock,))
+thread2 = threading.Thread(target=run, args=(lock,))
+
+thread1.start()
+thread2.start()
+
+thread1.join()
+thread2.join()
+print(count)
