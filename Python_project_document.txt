@@ -12,7 +12,7 @@
 
 7. mean: I copy the read config as a new config dict and then change the random seed to 321 666 separately, with run_count changed to 2 and 3. Then I use five list to record the results that the run function returns. To use multi-processing, I build a multiprocessing pool with 3 processes. I use a loop to add the run to the pool with corresponding configs and a results list to record the results. After that, I use the lists to record the results and get the appropriate form for the plot_mean. Then I close the pool. Finally I use the plot_mean to plot the mean results images.
 
-
+Please use the minist.yaml I have attached to the folder, because I add some parameters in it.
 
 
 

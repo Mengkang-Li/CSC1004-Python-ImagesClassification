@@ -222,7 +222,7 @@ def run(config, lock1, lock2, q, stop):
         test_acc, test_loss = test(config, model, device, test_loader, lock2)
         test_info = {'epoch': epoch, 'test_acc': test_acc, 'test_loss': test_loss}
         with lock2:
-            # stop equals when you get the value the value is
+            # stop equals when you get the value, the value is
             stop.value = stop.value + 1
         while stop.value < 3:
             sleep(0.0001)
